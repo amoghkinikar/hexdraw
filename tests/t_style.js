@@ -148,6 +148,7 @@ for(const [inp,want] of [
   ['1,2-dichloroethane','1,2-dichloroethane'], ['18-crown-6','18-crown-6'], ['2a','2a'], ['pH 7','pH 7'],
 ]) check(`S ${inp} → ${want}`, runsOf(inp)===want, runsOf(inp));
 check('S plain text stays one run', T.textRuns('xylene, Δ').length===1, T.textRuns('xylene, Δ').length);
+check('S no empty tspan carries the baseline back', !/<tspan[^>]*><\/tspan>/.test(asSVG), 'an empty tspan is still there');
 
 // the primitive list is what every writer reads, so check there rather than in the SVG alone
 T.loadState(T.freshState()); T.clearSel();
