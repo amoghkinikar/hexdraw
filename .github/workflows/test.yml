@@ -1,0 +1,20 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npx playwright install --with-deps chromium
+      # run.sh returns non-zero if any suite fails. The browser suite skips itself, exiting 0, when
+      # Playwright is missing — so a broken install would pass silently. Insist that it actually ran.
+      - run: sh tests/run.sh | tee test.log
+      - run: if grep -q "SKIP  playwright" test.log; then echo "browser suite did not run"; exit 1; fi

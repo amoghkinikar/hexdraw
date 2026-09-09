@@ -1,0 +1,8 @@
+# Git for Windows converts line endings on checkout by default. tests/run.sh must stay LF or the shell
+# refuses it ("bad interpreter"), and the .json fixtures are compared byte for byte in places.
+* text=auto
+*.sh text eol=lf
+*.json text eol=lf
+*.html text eol=lf
+*.js text eol=lf
+*.png binary

@@ -1,0 +1,10 @@
+node_modules/
+package-lock.json
+tests/app.js
+tests/check.js
+.DS_Store
+Thumbs.db
+
+# maintainer's notes stay in the project workspace, not in the public repository
+claude/
+HexDraw*handover*manual*.txt

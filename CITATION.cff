@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If HexDraw was useful in your work, please cite it as below."
+title: "HexDraw: a single-file editor for sp² carbon nanostructures"
+type: software
+authors:
+  - family-names: "Kinikar"
+    given-names: "Amogh"
+    # orcid: "https://orcid.org/0000-0000-0000-0000"
+version: 1.0.0
+date-released: 2026-09-09
+license: MIT
+repository-code: "https://github.com/amoghkinikar/hexdraw"
+url: "https://amoghkinikar.github.io/hexdraw/"
+keywords:
+  - graphene nanoribbons
+  - polycyclic aromatic hydrocarbons
+  - chemical structure drawing
+  - DFT input
+  - scanning tunneling microscopy
