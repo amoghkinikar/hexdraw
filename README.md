@@ -6,7 +6,7 @@ Bonds are 1.42 Å throughout, so the drawing *is* the geometry: what you export 
 
 ![HexDraw with a 7-AGNR and its unit cell](docs/screenshot.png)
 
-**[Open HexDraw in your browser](https://amoghkinikar.github.io/hexdraw/)** — nothing to install. Or download [`hexdraw.html`](hexdraw.html) and double-click it; it works offline and makes no network requests.
+**[Open HexDraw in your browser](https://amoghkinikar.github.io/hexdraw/hexdraw.html)** — nothing to install. Or download [`hexdraw.html`](hexdraw.html) and double-click it; it works offline and makes no network requests.
 
 ## What it does
 
