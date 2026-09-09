@@ -1763,9 +1763,14 @@ function buildLayerSVG(L, k, edit){
       case 'text': {
         const c=o.color?colorParts(o.color):lc; const op=c.a<0.999?` fill-opacity="${fmt(c.a)}"`:'';
         const fsk=o.size*k;
-        const body=o.runs.map(r=>r.sub
-          ? `<tspan font-size="${fmt(fsk*0.65)}" dy="${fmt(fsk*0.22)}">${esc(r.t)}</tspan><tspan dy="${fmt(-fsk*0.22)}"></tspan>`
-          : `<tspan>${esc(r.t)}</tspan>`).join('');
+        // The baseline correction rides on the next real run, never on an empty <tspan>: dy positions a
+        // tspan's characters, so with none some renderers drop the shift and the rest of the label stays down.
+        const body=o.runs.map((r,i)=>{
+          const dy = r.sub ? fsk*0.22 : (i && o.runs[i-1].sub ? -fsk*0.22 : 0);
+          const at = dy ? ` dy="${fmt(dy)}"` : '';
+          return r.sub ? `<tspan font-size="${fmt(fsk*0.65)}"${at}>${esc(r.t)}</tspan>`
+                       : `<tspan${at}>${esc(r.t)}</tspan>`;
+        }).join('');
         return `<text x="${X(o.x)}" y="${X(o.y)}" text-anchor="middle" font-family="${FONT}" font-size="${fmt(fsk)}" fill="${c.rgb}"${op}>${body}</text>`;
       }
     }
@@ -1987,9 +1992,11 @@ function floatSVG(){
   for(const a of flo.atoms){ const p=P(a); const hit=there.some(o=>Math.hypot(o.x-(a.x+pv.x),o.y-(a.y+pv.y))<0.3);
     g.push(`<circle cx="${p.x}" cy="${p.y}" r="${hit?0.26:0.14}" fill="${hit?'#b8451f':'#1f6f8b'}" fill-opacity="${hit?0.5:0.9}"/>`);
     if(a.el!=='C') g.push(`<text x="${p.x}" y="${p.y+0.3}" text-anchor="middle" font-family="${FONT}" font-size="0.85" fill="#1f6f8b">${esc(a.el)}</text>`); }
-  for(const t of flo.texts){ const p=P(t); const body=textRuns(t.text).map(r=>r.sub
-      ? `<tspan font-size="${fmt(t.size*0.65)}" dy="${fmt(t.size*0.22)}">${esc(r.t)}</tspan><tspan dy="${fmt(-t.size*0.22)}"></tspan>`
-      : `<tspan>${esc(r.t)}</tspan>`).join('');
+  for(const t of flo.texts){ const p=P(t); const rs=textRuns(t.text); const body=rs.map((r,i)=>{
+      const dy = r.sub ? t.size*0.22 : (i && rs[i-1].sub ? -t.size*0.22 : 0);
+      const at = dy ? ` dy="${fmt(dy)}"` : '';
+      return r.sub ? `<tspan font-size="${fmt(t.size*0.65)}"${at}>${esc(r.t)}</tspan>` : `<tspan${at}>${esc(r.t)}</tspan>`;
+    }).join('');
     g.push(`<text x="${p.x}" y="${p.y+0.35*t.size}" text-anchor="middle" font-family="${FONT}" font-size="${t.size}" fill="#1f6f8b">${body}</text>`); }
   return g.join('');
 }
